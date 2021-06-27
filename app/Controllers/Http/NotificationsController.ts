@@ -1,5 +1,6 @@
 import { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 
+import Ws from "App/Services/Ws";
 import Notification from "App/Models/Mongoose/Notification";
 
 export default class NotificationsController {
@@ -13,6 +14,8 @@ export default class NotificationsController {
     });
 
     await notification.save();
+
+    Ws.io.emit("notifications", { content, recipient_id });
 
     return notification;
   }
